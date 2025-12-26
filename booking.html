@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - TIM Badminton</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo.png" alt="TIM Badminton logo" class="logo-img" onerror="this.style.display='none'">
+                <span>TIM Badminton</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="booking.html" class="active">Booking</a></li>
+                <li><a href="facilities.html">Fasilitas</a></li>
+                <li><a href="testimonials.html">Testimoni</a></li>
+                <li><a href="about.html">Tentang Kami</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero booking-hero jumbotron">
+        <div class="hero-content">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; animation: fadeInUp 1s ease 0.3s both; opacity: 0; transform: translateY(30px);">BOOKING LAPANGAN</h1>
+            <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; animation: fadeInUp 1s ease 0.6s both; opacity: 0; transform: translateY(30px);">
+                Booking mudah untuk bermain badminton di TIM Badminton
+            </p>
+            <a href="booking.html" class="btn" style="animation: fadeInUp 1s ease 0.9s both; opacity: 0; transform: translateY(30px);">Booking Sekarang</a>
+        </div>
+    </section>
+
+    <main>
+        <section class="booking-container">
+            <!-- Price Info -->
+            <div class="price-info-box">
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">
+                    <i class="fas fa-tag"></i> HARGA
+                </h3>
+                <div class="price-amount">
+                    Rp 60.000
+                </div>
+                <p style="color: #666; margin: 0;">
+                    Per Jam • Semua Court • Standar BWF
+                </p>
+                <p style="color: #666; margin: 0.5rem 0 0 0;">
+                    <i class="far fa-clock"></i> Jam 08:00 - 21:00
+                </p>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="booking-form-container">
+                <form id="bookingForm">
+                    <!-- Step 1: Pilih Tanggal -->
+                    <div class="form-step">
+                        <h3>
+                            <span class="step-number">1</span>
+                            Pilih Tanggal
+                        </h3>
+                        <div class="form-group">
+                            <label for="bookingDate">Tanggal Booking *</label>
+                            <input type="date" id="bookingDate" required style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px;">
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Pilih Court -->
+                    <div class="form-step">
+                        <h3>
+                            <span class="step-number">2</span>
+                            Pilih Court
+                        </h3>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            Semua court sama spesifikasinya. Pilih yang tersedia:
+                        </p>
+                        <div class="court-selection" id="courtSelection">
+                            <div class="court-option" data-court="Court 1">
+                                <div>Court 1</div>
+                            </div>
+                            <div class="court-option" data-court="Court 2">
+                                <div>Court 2</div>
+                            </div>
+                            <div class="court-option" data-court="Court 3">
+                                <div>Court 3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Pilih Jam -->
+                    <div class="form-step">
+                        <h3>
+                            <span class="step-number">3</span>
+                            Pilih Jam
+                        </h3>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            Pilih waktu yang diinginkan (per jam):
+                        </p>
+                        <div id="timeLoader" class="time-loader" aria-hidden="true">
+                            <div class="spinner" aria-hidden="true"></div>
+                            <div style="color:#666; font-size:0.95rem;">Memuat jadwal...</div>
+                        </div>
+                        <div class="time-selection" id="timeSelection">
+                            <!-- Time slots will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Data Diri -->
+                    <div class="form-step">
+                        <h3>
+                            <span class="step-number">4</span>
+                            Data Diri
+                        </h3>
+                        <div class="form-group">
+                            <label>Nama Lengkap *</label>
+                            <input type="text" id="nama" required placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div class="form-group">
+                            <label>No. WhatsApp *</label>
+                            <input type="tel" id="no_hp" required placeholder="0812-3456-7890">
+                        </div>
+                        <!-- Email field removed per request -->
+                    </div>
+
+                    <!-- Booking Summary -->
+                    <div class="booking-summary">
+                        <h4 style="color: var(--secondary); margin-bottom: 1rem;">
+                            <i class="fas fa-receipt"></i> RINGKASAN BOOKING
+                        </h4>
+                        <div class="summary-item">
+                            <span>Court:</span>
+                            <span id="summaryCourt">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Tanggal:</span>
+                            <span id="summaryDate">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Jam:</span>
+                            <span id="summaryTime">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Durasi:</span>
+                            <span id="summaryDuration">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Total:</span>
+                            <span id="summaryTotal">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 2rem; padding: 1rem;">
+                        <i class="fas fa-check"></i> KONFIRMASI BOOKING
+                    </button>
+
+                    <div class="info-box">
+                        <p><i class="fas fa-info-circle"></i> 
+                            Pembayaran dilakukan di tempat setelah bermain. Booking akan dikonfirmasi via WhatsApp.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Cara Booking -->
+        <section class="cara-booking-section">
+            <h3>
+                <i class="fas fa-question-circle"></i> CARA BOOKING
+            </h3>
+            <div class="cara-booking-grid">
+                <div class="cara-booking-step">
+                    <div class="step-icon">1</div>
+                    <h4>Pilih Jadwal</h4>
+                    <p>Pilih tanggal, court, dan jam yang tersedia</p>
+                </div>
+                <div class="cara-booking-step">
+                    <div class="step-icon">2</div>
+                    <h4>Isi Data</h4>
+                    <p>Isi nama dan nomor WhatsApp untuk konfirmasi</p>
+                </div>
+                <div class="cara-booking-step">
+                    <div class="step-icon">3</div>
+                    <h4>Konfirmasi</h4>
+                    <p>Terima konfirmasi via WhatsApp dan datang bermain</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>TIM Badminton</h3>
+                <p style="margin-top:0.4rem;">GOR Badminton – Yogyakarta</p>
+                <p style="margin-top:0.6rem;">🕒 08.00 – 21.00</p>
+            </div>
+            <div>
+                <h3>Lokasi</h3>
+                <p><a class="maps-link" href="https://www.google.com/maps?q=GOR+UII" target="_blank" rel="noopener">Lihat di Maps (GOR UII)</a></p>
+            </div>
+            <div>
+                <h3>Kontak Kami</h3>
+                <div class="social-icons" style="justify-content:center; margin-top:1rem; gap:0.9rem;">
+                    <a href="https://www.instagram.com/badminton.ina?igsh=YmU3NzVsdWFkdG4w" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/6281268290758" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+                    <a href="mailto:tim.badminton@gmail.com"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.tiktok.com/@pbsi.id?_r=1&_t=ZS-92PyzVYJhti" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
+            <p>© 2024 TIM Badminton</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Booking system for booking.html
+        let selectedCourt = '';
+        let selectedDate = '';
+        let selectedTime = '';
+        let dateTouched = false;
+        
+        // Initialize date picker (use local date to avoid UTC shift)
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = (function(){ const d=new Date(); const yyyy=d.getFullYear(); const mm=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${yyyy}-${mm}-${dd}`; })();
+            const dateInput = document.getElementById('bookingDate');
+            const maxDate = new Date();
+            maxDate.setDate(maxDate.getDate() + 30);
+
+            dateInput.min = today;
+            dateInput.max = (function(d){ const yyyy=d.getFullYear(); const mm=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${yyyy}-${mm}-${dd}`; })(maxDate);
+            dateInput.value = today;
+            // store today's ISO value but mark as not touched (user didn't actively change)
+            selectedDate = dateInput.value;
+            dateTouched = false;
+            
+            // Generate time slots (8:00 - 21:00)
+            generateTimeSlots();
+            
+            // Update summary
+            updateSummary();
+            
+            // Load schedule for selected date
+            loadBookingSchedule(today);
+        });
+        
+        // Court selection
+        document.querySelectorAll('.court-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all
+                document.querySelectorAll('.court-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+
+                // Add selected class to clicked
+                this.classList.add('selected');
+                selectedCourt = this.getAttribute('data-court');
+
+                // Update summary and reload slots for this court
+                updateSummary();
+                const dateInput = document.getElementById('bookingDate');
+                const dateToLoad = dateTouched ? selectedDate : dateInput.value;
+                loadBookingSchedule(dateToLoad, selectedCourt);
+            });
+        });
+        
+        // Date change (user actively selects date)
+        document.getElementById('bookingDate').addEventListener('change', function() {
+            selectedDate = this.value;
+            dateTouched = true;
+            generateTimeSlots(); // Regenerate time slots for new date
+            updateSummary();
+            loadBookingSchedule(selectedDate, selectedCourt || null);
+        });
+        
+        // Generate time slots
+       function generateTimeSlots() {
+    const timeContainer = document.getElementById('timeSelection');
+    const selectedDate = document.getElementById('bookingDate').value;
+
+    const now = new Date();
+    const selectedDateObj = new Date(selectedDate + 'T00:00:00');
+    const todayObj = new Date();
+    todayObj.setHours(0, 0, 0, 0);
+
+    let html = '';
+
+    for (let hour = 8; hour <= 21; hour++) {
+        const time = `${String(hour).padStart(2, '0')}:00`;
+        let slotClass = 'time-slot';
+
+        // BLOK JAM LEWAT HANYA UNTUK HARI INI
+        if (selectedDateObj.getTime() === todayObj.getTime()) {
+    const slotTime = new Date();
+    slotTime.setHours(hour, 0, 0, 0);
+
+    if (slotTime <= now) {
+        slotClass += ' disabled';
+    }
+}
+
+
+
+        html += `
+            <div class="${slotClass}" data-time="${time}">
+                ${time}
+            </div>
+        `;
+    }
+
+    timeContainer.innerHTML = html;
+
+    // pasang event klik
+    document.querySelectorAll('.time-slot').forEach(slot => {
+        slot.addEventListener('click', function () {
+            if (this.classList.contains('disabled') || this.classList.contains('booked')) return;
+
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedTime = this.dataset.time;
+            updateSummary();
+        });
+    });
+        }
+        
+        // Load booking schedule
+        async function loadBookingSchedule(date, court = null) {
+            const loader = document.getElementById('timeLoader');
+            const timeSel = document.getElementById('timeSelection');
+            try {
+                // show loader and disable slot clicks
+                if (loader) loader.classList.add('active');
+                if (timeSel) timeSel.classList.add('loading');
+
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
+
+                // Filter data for selected date
+                const parseDate = (dateStr) => {
+                    // Try YYYY-MM-DD
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                        return new Date(dateStr + 'T00:00:00');
+                    }
+                    // Try DD/MM/YYYY or DD-MM-YYYY (assume DD/MM/YYYY for Indonesia)
+                    const match = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+                    if (match) {
+                        const [, day, month, year] = match;
+                        return new Date(year, month - 1, day);
+                    }
+                    // Fallback
+                    return new Date(dateStr);
+                };
+
+                let filteredData = data.filter(item => {
+                    const sheetDate = parseDate(item.Tanggal);
+                    const selectedDate = new Date(date + 'T00:00:00');
+
+                    sheetDate.setHours(0, 0, 0, 0);
+                    selectedDate.setHours(0, 0, 0, 0);
+
+                    const dateMatches = sheetDate.getTime() === selectedDate.getTime();
+                    const courtMatches = court ? item.Court === court : true;
+
+                    return dateMatches && courtMatches;
+                });
+
+                // Mark booked slots for the selected court (if court is specified)
+
+                // Reset all slots to available
+                document.querySelectorAll('.time-slot').forEach(slot => {
+                    slot.classList.remove('booked');
+                    slot.title = '';
+                });
+
+                // Regenerate time slots after resetting
+                generateTimeSlots();
+
+                // Mark booked slots for the (selected) court
+                filteredData.forEach(item => {
+                    if (item.Status === 'Booked') {
+                        const normalizedJam = item.Jam.padStart ? item.Jam.padStart(5, '0') : item.Jam;
+                        const slot = document.querySelector(`.time-slot[data-time="${normalizedJam}"]`);
+                        if (slot) {
+                            slot.classList.add('booked');
+                            slot.title = 'Sudah dibooking';
+                        }
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+            } finally {
+                if (loader) loader.classList.remove('active');
+                if (timeSel) timeSel.classList.remove('loading');
+            }
+        }
+        
+        // Update booking summary
+        function updateSummary() {
+            const dateInput = document.getElementById('bookingDate');
+            const dateToShow = (dateTouched && selectedDate) ? selectedDate : (dateInput && dateInput.value ? dateInput.value : '');
+
+            document.getElementById('summaryCourt').textContent = selectedCourt || '-';
+            document.getElementById('summaryDate').textContent = dateToShow ? formatDisplayDate(dateToShow) : '-';
+            document.getElementById('summaryTime').textContent = selectedTime || '-';
+            document.getElementById('summaryDuration').textContent = selectedTime ? '1 Jam' : '-';
+            document.getElementById('summaryTotal').textContent = selectedTime ? 'Rp 60.000' : '-';
+        }
+        
+        // Format date for display (robust: accepts several input formats)
+        function formatDisplayDate(dateString) {
+            if (!dateString) return '-';
+
+            // If already a Date object
+            if (dateString instanceof Date) {
+                const d = dateString;
+                if (!isNaN(d)) {
+                    return d.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                }
+            }
+
+            // Try native parsing first
+            let d = new Date(dateString);
+            if (!isNaN(d)) {
+                return d.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            // Try ISO-ish YYYY-MM-DD with explicit split
+            const isoMatch = String(dateString).match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+            if (isoMatch) {
+                d = new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]));
+                if (!isNaN(d)) {
+                    return d.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                }
+            }
+
+            // Try DD/MM/YYYY or DD-MM-YYYY
+            const altMatch = String(dateString).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+            if (altMatch) {
+                // altMatch: day, month, year
+                d = new Date(Number(altMatch[3]), Number(altMatch[2]) - 1, Number(altMatch[1]));
+                if (!isNaN(d)) {
+                    return d.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                }
+            }
+
+            // If string contains a comma (like "Rabu, 24 Desember 2025"), try to extract the date portion
+            const parts = String(dateString).split(',').map(s => s.trim());
+            for (let i = 0; i < parts.length; i++) {
+                const tryPart = parts[i].replace(/[A-Za-z]+/g, '').trim();
+                d = new Date(tryPart);
+                if (!isNaN(d)) {
+                    return d.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                }
+            }
+
+            // Fallback: return original string
+            return String(dateString);
+        }
+        
+        // Form submission
+        (function installBookingHandler(){
+            let form = document.getElementById('bookingForm');
+            if (!form) return;
+
+            // Remove any existing event listeners by replacing the form node with a clone
+            const newForm = form.cloneNode(true);
+            form.parentNode.replaceChild(newForm, form);
+            form = newForm;
+
+            // Re-bind interactive controls inside the cloned form
+            function rebindControls() {
+                // Re-generate time slots and attach their handlers
+                if (typeof generateTimeSlots === 'function') {
+                    generateTimeSlots();
+                }
+
+                // Re-attach court selection handlers
+                document.querySelectorAll('.court-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        document.querySelectorAll('.court-option').forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedCourt = this.getAttribute('data-court');
+                        updateSummary();
+                        const dateInput = document.getElementById('bookingDate');
+                        const dateToLoad = dateTouched ? selectedDate : (dateInput ? dateInput.value : '');
+                        loadBookingSchedule(dateToLoad, selectedCourt);
+                    });
+                });
+
+                // Re-attach bookingDate change handler
+                const dateEl = document.getElementById('bookingDate');
+                if (dateEl) {
+                    dateEl.addEventListener('change', function() {
+                        selectedDate = this.value;
+                        dateTouched = true;
+                        updateSummary();
+                        loadBookingSchedule(selectedDate, selectedCourt || null);
+                    });
+                }
+            }
+
+            // call rebind right away
+            rebindControls();
+
+            // Helper: try to convert various date strings into YYYY-MM-DD
+            function toISODate(v) {
+                if (!v) return '';
+                // If already in YYYY-MM-DD
+                if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+
+                // Try ISO-ish
+                const iso = String(v).match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+                if (iso) {
+                    const y = iso[1], m = String(iso[2]).padStart(2,'0'), d = String(iso[3]).padStart(2,'0');
+                    return `${y}-${m}-${d}`;
+                }
+
+                // Try DD/MM/YYYY or DD-MM-YYYY
+                const alt = String(v).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+                if (alt) {
+                    const d = String(alt[1]).padStart(2,'0'), m = String(alt[2]).padStart(2,'0'), y = alt[3];
+                    return `${y}-${m}-${d}`;
+                }
+
+                // Try to parse with Date and extract local components
+                const parsed = new Date(v);
+                if (!isNaN(parsed)) {
+                    const YYYY = parsed.getFullYear();
+                    const MM = String(parsed.getMonth()+1).padStart(2,'0');
+                    const DD = String(parsed.getDate()).padStart(2,'0');
+                    return `${YYYY}-${MM}-${DD}`;
+                }
+
+                return '';
+            }
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Re-derive selections from DOM in case globals were clobbered
+                if (!selectedCourt) {
+                    const sel = document.querySelector('.court-option.selected');
+                    if (sel) selectedCourt = sel.getAttribute('data-court');
+                }
+                if (!selectedTime) {
+                    const tsel = document.querySelector('.time-slot.selected');
+                    if (tsel) selectedTime = tsel.getAttribute('data-time');
+                }
+
+                // Validation
+                if (!selectedCourt) {
+                    alert('Silakan pilih court terlebih dahulu');
+                    return;
+                }
+
+                if (!selectedTime) {
+                    alert('Silakan pilih jam terlebih dahulu');
+                    return;
+                }
+
+                const rawTanggal = selectedDate || (document.getElementById('bookingDate') && document.getElementById('bookingDate').value) || '';
+                const isoTanggal = toISODate(rawTanggal) || rawTanggal;
+                const displayTanggal = (function(v){ try { return formatDisplayDate(v); } catch(e){ return v; } })(isoTanggal || rawTanggal);
+
+                const bookingData = {
+                    // lowercase keys (existing API may accept these)
+                    nama: document.getElementById('nama').value,
+                    no_hp: document.getElementById('no_hp').value,
+                    court: selectedCourt,
+                    tanggal: isoTanggal,
+                    jam: selectedTime,
+                    harga: 60000,
+
+                    // also provide capitalized keys to match sheet headers if needed
+                    Nama: document.getElementById('nama').value,
+                    No_HP: document.getElementById('no_hp').value,
+                    Court: selectedCourt,
+                    Tanggal: isoTanggal || rawTanggal,
+                    Tanggal_Display: displayTanggal,
+                    Jam: selectedTime,
+                    Harga: 60000,
+                    Status: 'Booked'
+                };
+
+                try {
+                    console.log('Booking payload:', bookingData);
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(bookingData)
+                    });
+
+                let result = null;
+                let textBody = null;
+                try {
+                    result = await response.json();
+                } catch (jsonErr) {
+                    // response may not be JSON; read text for debugging
+                    try { textBody = await response.text(); } catch (t) { textBody = null; }
+                }
+
+                const successByBody = result && result.status === 'success';
+                const successByStatus = response.ok && !result; // 200 OK but non-JSON body
+
+                if (successByBody || successByStatus) {
+                    const displayDate = dateTouched && selectedDate ? selectedDate : document.getElementById('bookingDate').value;
+                    alert(`✅ Booking Berhasil!\n\nCourt: ${selectedCourt}\nTanggal: ${formatDisplayDate(displayDate)}\nJam: ${selectedTime}\nHarga: Rp 60.000\n\nKami akan kirim konfirmasi via WhatsApp dalam 5 menit.`);
+
+                    // Store the booked court before resetting
+                    const bookedCourt = selectedCourt;
+                    const bookedTime = selectedTime;
+
+                    // Reset form
+                    this.reset();
+                    document.querySelectorAll('.court-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    document.querySelectorAll('.time-slot').forEach(slot => {
+                        slot.classList.remove('selected');
+                    });
+
+                    selectedCourt = '';
+                    selectedTime = '';
+                    updateSummary();
+
+                    // Reload schedule with slight delay to ensure data is saved
+                    setTimeout(() => {
+                        const currentDate = selectedDate || document.getElementById('bookingDate').value;
+                        // Reload for the court that was just booked
+                        if (bookedCourt) {
+                            document.querySelectorAll('.court-option').forEach(opt => {
+                                if (opt.getAttribute('data-court') === bookedCourt) {
+                                    opt.classList.add('selected');
+                                    selectedCourt = bookedCourt;
+                                    updateSummary();
+                                    loadBookingSchedule(currentDate, selectedCourt);
+                                }
+                            });
+                        } else {
+                            loadBookingSchedule(currentDate, selectedCourt || null);
+                        }
+                    }, 2000);
+
+                } else {
+                    console.error('Booking failed response:', { status: response.status, body: result || textBody });
+                    const debugMsg = textBody ? `\nServer response: ${textBody}` : '';
+                    alert('❌ Booking gagal. Silakan coba lagi.' + debugMsg);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('⚠️ Terjadi kesalahan jaringan. Silakan coba lagi.');
+            }
+        });
+
+        // end installBookingHandler
+        })();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth reveal animation for elements on scroll
+            const revealElements = document.querySelectorAll('.price-info-box, .booking-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            revealElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

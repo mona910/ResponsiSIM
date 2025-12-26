@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimoni - TIM Badminton</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--primary);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        /* Wrapper spacing so cards don't touch viewport edges */
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2.5rem;
+        }
+
+        /* Improve spacing for hero text (title + subtitle) */
+        .testimonials-hero .hero-content h1 {
+            margin-bottom: 0.6rem;
+        }
+
+        .testimonials-hero .hero-content p {
+            max-width: 1000px;
+            margin: 1rem auto 2rem;
+            padding: 0 1.5rem;
+            font-size: 1.12rem;
+            line-height: 1.9;
+            text-align: center;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-hero .hero-content p {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .testimonial-card:hover::before {
+            left: 100%;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Override untuk player card */
+        .player-card .testimonial-header {
+            margin-bottom: 1.2rem;
+        }
+
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover .testimonial-avatar {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .player-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), #ff8c42);
+            color: white;
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Lebih terang di player card */
+        .player-card .player-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .rating {
+            color: #ffd166;
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .rating i {
+            transition: all 0.2s ease;
+            color: var(--accent);
+        }
+
+        .testimonial-card:hover .rating i {
+            transform: scale(1.15);
+        }
+
+        /* Player card rating styling */
+        .player-card .rating {
+            color: #fff9c4;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .testimonial-text {
+            font-style: normal;
+            color: #555;
+            line-height: 1.8;
+            padding: 1rem 0;
+            border-top: 2px solid #f0f0f0;
+            border-bottom: 2px solid #f0f0f0;
+            margin-top: 1rem;
+            position: relative;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 2.5rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            font-weight: bold;
+        }
+
+        /* Override untuk player card */
+        .player-card .testimonial-text {
+            color: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.2rem 0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .player-card .testimonial-text::before {
+            opacity: 0.15;
+        }
+
+        .testimonial-date {
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .testimonial-card:hover .testimonial-date {
+            color: var(--primary);
+        }
+
+        /* Player card date styling */
+        .player-card .testimonial-date {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .player-card:hover .testimonial-date {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stats-section {
+            background: none !important;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.08),
+                0 5px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255, 107, 53, 0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            min-height: 120px;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #ff8c42, var(--primary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(255, 107, 53, 0.12),
+                0 10px 20px rgba(0, 0, 0, 0.08);
+            border-color: rgba(255, 107, 53, 0.15);
+        }
+
+        .stat-icon {
+            background: linear-gradient(135deg, var(--primary), #ff8c42);
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.25);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.05) rotate(3deg);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.35);
+        }
+
+        .stat-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            text-shadow: 0 1px 2px rgba(255, 107, 53, 0.08);
+            line-height: 1;
+        }
+
+        .stat-value .stat-num {
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .stat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-desc {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .stats-section {
+                padding: 2rem 1rem;
+                margin: 2rem 0;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem 1.2rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                min-height: auto;
+            }
+
+            .stat-content {
+                text-align: center;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .stat-title {
+                font-size: 1rem;
+            }
+        }
+
+        .player-testimonials {
+            background: linear-gradient(135deg, var(--secondary), #ff9a04);
+            color: white;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .player-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .player-card:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .testimonial-avatar {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo.png" alt="TIM Badminton logo" class="logo-img" onerror="this.style.display='none'">
+                <span>TIM Badminton</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="facilities.html">Fasilitas</a></li>
+                <li><a href="testimonials.html" class="active">Testimoni</a></li>
+                <li><a href="about.html">Tentang Kami</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="testimonials-hero jumbotron">
+        <div class="hero-content">
+            <h1 style="animation: fadeInUp 1s ease 0.3s both; opacity: 0; transform: translateY(30px);">Kata Mereka</h1>
+            <p style="animation: fadeInUp 1s ease 0.6s both; opacity: 0; transform: translateY(30px);">Pengalaman nyata dari pemain dan pelanggan yang menjadikan TIM Badminton pilihan untuk latihan, pertandingan, dan refreshing berkualitas.</p>
+            <a href="booking.html" class="btn" style="animation: fadeInUp 1s ease 0.9s both; opacity: 0; transform: translateY(30px);">Booking Sekarang</a>
+        </div>
+    </section>
+
+    <main>
+        <!-- Player testimonials merged into main testimonials grid (displayed as regular cards) -->
+
+        <!-- Testimoni Regular Customers -->
+        <section class="testimonials-container">
+            <h2 style="text-align: center; color: var(--secondary); margin-bottom: 2rem;">
+                <i class="fas fa-users"></i> TESTIMONI PELANGGAN
+            </h2>
+            
+            <div class="testimonial-grid">
+                <!-- Testimoni Atlet: Kevin -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/kevin.png" alt="Kevin" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Kevin Sanjaya</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Atlet - Ganda Putra</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Fasilitas profesional dan permukaan lapangan konsisten, ideal untuk latihan intensif. Staf ramah dan manajemen waktu latihan selalu tepat."
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 20 November 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni Atlet: Gregoria -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/gregoria.png" alt="Gregoria" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Gregoria Mariska</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Atlet - Tunggal Putri</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Ukuran dan peralatan sesuai standar latihan kompetitif. Permukaan lantai dan ketinggian net ideal untuk memperbaiki teknik dasar dan taktik."
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 15 November 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni 1 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/ahsan.png" alt="Ahsan" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Ahsan</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Pemain Reguler</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Harga sangat sepadan: pencahayaan, kebersihan, dan proses booking online yang cepat membuat pengalaman latihan jadi mudah dan menyenangkan." 
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 10 Desember 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni 2 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/hendra.png" alt="Hendra" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Hendra</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Group Badminton Kantor</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Rutin menyewa untuk kegiatan kantor—ketersediaan lapangan konsisten dan fasilitas pendukung lengkap. Lokasi strategis dan parkir memadai." 
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 5 Desember 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni 3 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/marcus.png" alt="Marcus" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Marcus</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Mahasiswa</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Pilihan tepat untuk mahasiswa: tarif terjangkau dengan fasilitas lengkap seperti WiFi, loker, dan shower. Suasana terjaga sehingga nyaman bermain setelah kelas." 
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 1 Desember 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni 4 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/taufik.png" alt="Taufik" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Taufik</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Pelatih Badminton</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Ukuran dan peralatan sesuai standar latihan kompetitif. Permukaan lantai dan ketinggian net ideal untuk memperbaiki teknik dasar dan taktik." 
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 25 November 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni 5 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/apriyani.png" alt="Apriyani" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Apriyani</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Ibu Rumah Tangga</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Tempat yang ramah keluarga—aman untuk anak-anak, jadwal fleksibel, dan kebersihan terjaga setiap hari. Sangat direkomendasikan untuk family time." 
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 20 November 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni 6 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/greysia.png" alt="Greysia" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Greysia</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Pegawai Bank</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Sempurna untuk melepas penat setelah kerja: proses booking mudah, suasana nyaman, dan fasilitas mendukung pemulihan setelah latihan." 
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 15 November 2024
+                    </div>
+                </div>
+
+                <!-- Testimoni: Melati -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="images/testimonials/melati.png" alt="Melati" class="testimonial-avatar">
+                        <div>
+                            <h3 style="margin: 0; color: var(--secondary);">Melati</h3>
+                            <p style="margin: 0.2rem 0; color: #666;">Pengunjung & Pelatih Rekreasi</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Tempat yang bersih, fasilitas lengkap, dan staf yang membantu — sangat cocok untuk latihan kelompok maupun sesi santai. Saya merekomendasikan TIM Badminton untuk semua level pemain."
+                    </div>
+                    <div class="testimonial-date">
+                        <i class="far fa-calendar"></i> 12 Desember 2024
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats-section">
+            <h2 style="text-align: center; color: var(--secondary); margin-bottom: 3rem;">
+                <i class="fas fa-chart-line"></i> TIM BADMINTON DALAM ANGKA
+            </h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">
+                            <span class="stat-num" data-target="4.8" data-decimals="1" data-suffix=" / 5">0</span>
+                        </div>
+                        <div class="stat-title">Rating Google</div>
+                        <div class="stat-desc">Dari 1000+ ulasan pelanggan</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">
+                            <span class="stat-num" data-target="8000" data-decimals="0" data-suffix="+">0</span>
+                        </div>
+                        <div class="stat-title">Total Booking</div>
+                        <div class="stat-desc">Booking berhasil sejak 2020</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-table-tennis-paddle-ball"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">
+                            <span class="stat-num" data-target="3" data-decimals="0" data-suffix=" Court">0</span>
+                        </div>
+                        <div class="stat-title">Lapangan BWF</div>
+                        <div class="stat-desc">Standar internasional badminton</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>TIM Badminton</h3>
+                <p style="margin-top:0.4rem;">GOR Badminton – Yogyakarta</p>
+                <p style="margin-top:0.6rem;">🕒 08.00 – 21.00</p>
+            </div>
+            <div>
+                <h3>Lokasi</h3>
+                <p><a class="maps-link" href="https://www.google.com/maps?q=GOR+UII" target="_blank" rel="noopener">Lihat di Maps (GOR UII)</a></p>
+            </div>
+            <div>
+                <h3>Kontak Kami</h3>
+                <div class="social-icons" style="justify-content:center; margin-top:1rem; gap:0.9rem;">
+                    <a href="https://www.instagram.com/badminton.ina?igsh=YmU3NzVsdWFkdG4w" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/6281268290758" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+                    <a href="mailto:tim.badminton@gmail.com"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.tiktok.com/@pbsi.id?_r=1&_t=ZS-92PyzVYJhti" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
+            <p>© 2024 TIM Badminton</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth reveal animation for elements on scroll
+            const revealElements = document.querySelectorAll('.testimonials-container, .testimonial-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            revealElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+
+            // --- Generic count-up for all stat-num elements ---
+            function countUpTo(el, target, decimals = 0, duration = 2000, suffix = '') {
+                if (!el) return;
+                const start = 0;
+                const range = target - start;
+                const startTime = performance.now();
+
+                function easeInOut(t) {
+                    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                }
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = easeInOut(progress);
+                    const value = start + eased * range;
+                    if (decimals > 0) {
+                        el.textContent = value.toFixed(decimals).replace('.', ',') + suffix;
+                    } else {
+                        el.textContent = Math.floor(value).toLocaleString('id-ID') + suffix;
+                    }
+                    if (progress < 1) requestAnimationFrame(step);
+                    else {
+                        if (decimals > 0) el.textContent = Number(target).toFixed(decimals).replace('.', ',') + suffix;
+                        else el.textContent = Number(target).toLocaleString('id-ID') + suffix;
+                    }
+                }
+
+                requestAnimationFrame(step);
+            }
+
+            // Observe the stats section and trigger all counters when visible
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) {
+                const trigger = () => {
+                    const elems = document.querySelectorAll('.stat-num');
+                    elems.forEach(el => {
+                        const target = parseFloat(el.getAttribute('data-target')) || 0;
+                        const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+                        const suffix = el.getAttribute('data-suffix') || '';
+                        countUpTo(el, target, decimals, 2000, suffix);
+                    });
+                };
+
+                if ('IntersectionObserver' in window) {
+                    const obs = new IntersectionObserver((entries, o) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                trigger();
+                                o.disconnect();
+                            }
+                        });
+                    }, { threshold: 0.4 });
+                    obs.observe(statsSection);
+                } else {
+                    trigger();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
